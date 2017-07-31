@@ -11,7 +11,7 @@ import urllib.request
 import lxml.html
 
 headers = {
-    'User-Agent': 'sourceforge2authors (https://github.com/jwilk/sourceforge2authors)',
+    'User-Agent': 'sourceforge-authors (https://github.com/jwilk/sourceforge-authors)',
 }
 
 url_template = 'https://sourceforge.net/u/{0}/profile/'
