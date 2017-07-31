@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+
+# Copyright © 2017 Jakub Wilk <jwilk@jwilk.net>
+# SPDX-License-Identifier: MIT
+
+import argparse
+import re
+import urllib.parse
+import urllib.request
+
+import lxml.html
+
+headers = {
+    'User-Agent': 'sourceforge2authors (jwilk@jwilk.net)',
+}
+
+url_template = 'https://sourceforge.net/u/{0}/profile/'
+
+authors_template = '{orig_user} = {name} <{user}@users.sourceforge.net>'
+
+def get_user_name(user):
+    url = url_template.format(urllib.parse.quote(user))
+    request = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(request) as fp:
+            data = fp.read()
+    except urllib.error.URLError as exc:
+        if exc.code == 404:
+            return
+    html = lxml.html.fromstring(data)
+    title = html.find('.//title')
+    match = re.match('(.+) / Profile$', title.text)
+    if match:
+        return match.group(1)
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('users', metavar='USER', nargs='+')
+    options = ap.parse_args()
+    for user in options.users:
+        orig_user = user
+        if user == '(no author)':
+            user = 'nobody'
+            name = 'nobody'
+        else:
+            name = get_user_name(user) or '?'
+        line = authors_template.format(
+            orig_user=orig_user,
+            user=user,
+            name=name
+        )
+        print(line)
+
+if __name__ == '__main__':
+    main()
+
+# vim:ts=4 sts=4 sw=4 et
