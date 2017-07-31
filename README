@@ -1,0 +1,7 @@
+.. code:: console
+
+   $ sourceforge-authors jakub-wilk '(no author)'
+   jakub-wilk = Jakub Wilk <jakub-wilk@users.sourceforge.net>
+   (no author) = nobody <nobody@users.sourceforge.net>
+
+.. vim:ft=rst ts=3 sts=3 sw=3 et
