@@ -39,7 +39,7 @@ def main():
     options = ap.parse_args()
     for user in options.users:
         orig_user = user
-        if user == '(no author)':
+        if user in {'root', '(no author)'}:
             user = 'nobody'
             name = 'nobody'
         else:
