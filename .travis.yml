@@ -3,23 +3,25 @@ language: python
 matrix:
   include:
   - python: "3.2"
+    env: LXML=3.1.0
   - python: "3.3"
+    env: LXML=3.1.0
   - python: "3.4"
   - python: "3.5"
   - python: "3.6"
   - python: "3.7-dev"
 cache: pip
 before_install:
-- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_lxml=:; fi
+- lxml="lxml${LXML:+==$LXML}"
 - pyflakes=pyflakes
 - if [[ $TRAVIS_PYTHON_VERSION = 3.[23] ]]; then pyflakes='pyflakes<2'; fi
 - if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
 install:
-- $if_lxml python3 -m pip install lxml
+- python3 -m pip install $lxml
 - python3 -m pip install pydiatra $pyflakes
 - $if_pygments python3 -m pip install restructuredtext-lint pygments
 script:
-- $if_lxml ./sourceforge-authors jakub-wilk '(no author)'
+- ./sourceforge-authors jakub-wilk '(no author)'
 - python3 -m pydiatra .
 - python3 -m pyflakes .
 - $if_pygments restructuredtext-lint --encoding=UTF-8 README
