@@ -28,10 +28,12 @@ def get_user_name(user):
         if exc.code == 404:
             return
     html = lxml.html.fromstring(data)
-    title = html.find('.//title')
-    match = re.match('(.+) / Profile$', title.text)
-    if match:
-        return match.group(1)
+    try:
+        [name_elt] = html.xpath('.//h1[@itemprop="name"]/a')
+    except ValueError:
+        return
+    else:
+        return name_elt.text
 
 def main():
     ap = argparse.ArgumentParser()

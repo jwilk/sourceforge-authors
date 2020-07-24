@@ -13,7 +13,7 @@ then
     echo 'not ok 1'
     exit 1
 fi
-exp=$'jakub-wilk = jakub-wilk <jakub-wilk@users.sourceforge.net>\n(no author) = nobody <nobody@users.sourceforge.net>\n'
+exp=$'jakub-wilk = Jakub Wilk <jakub-wilk@users.sourceforge.net>\n(no author) = nobody <nobody@users.sourceforge.net>\n'
 out=$("$prog" jakub-wilk '(no author)')
 diff=$(diff -u <(printf '%s' "$exp") <(printf '%s\n' "$out")) || true
 if [ -z "$diff" ]
