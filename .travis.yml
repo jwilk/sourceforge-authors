@@ -20,7 +20,7 @@ before_install:
 - lxml="lxml${LXML:+==$LXML}"
 - pyflakes=pyflakes
 - if [[ $TRAVIS_PYTHON_VERSION = 3.[23] ]]; then pyflakes='pyflakes<2'; fi
-- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.[234] ]]; then if_pygments=:; fi
 install:
 - python3 -m pip install $lxml
 - python3 -m pip install pydiatra $pyflakes
