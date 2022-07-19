@@ -28,11 +28,11 @@ def get_user_name(user):
             return
     html = lxml.html.fromstring(data)
     try:
-        [name_elt] = html.xpath('.//h1[@itemprop="name"]/a')
+        [name] = html.xpath('.//meta[@itemprop="name"]/@content')
     except ValueError:
         return
     else:
-        return name_elt.text
+        return str(name)
 
 def main():
     ap = argparse.ArgumentParser()
