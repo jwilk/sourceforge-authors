@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MIT
 
 import argparse
+import io
+import json
 import urllib.parse
 import urllib.request
-
-import lxml.html
 
 headers = {
     'User-Agent': 'sourceforge-authors (https://github.com/jwilk/sourceforge-authors)',
 }
 
-url_template = 'https://sourceforge.net/u/{0}/profile/'
+url_template = 'https://sourceforge.net/rest/u/{0}/profile'
 
 authors_template = '{orig_user} = {name} <{user}@users.sourceforge.net>'
 
@@ -22,17 +22,12 @@ def get_user_name(user):
     request = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(request) as fp:
-            data = fp.read()
+            with io.TextIOWrapper(fp, encoding='UTF-8') as tfp:
+                data = json.load(tfp)
     except urllib.error.URLError as exc:
         if exc.code == 404:
             return
-    html = lxml.html.fromstring(data)
-    try:
-        [name] = html.xpath('.//meta[@itemprop="name"]/@content')
-    except ValueError:
-        return
-    else:
-        return str(name)
+    return data['name']
 
 def main():
     ap = argparse.ArgumentParser()
