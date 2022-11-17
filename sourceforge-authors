@@ -40,6 +40,7 @@ def main():
             name = 'nobody'
         else:
             name = get_user_name(user) or '?'
+        name = str.join(' ', name.split())
         line = authors_template.format(
             orig_user=orig_user,
             user=user,
