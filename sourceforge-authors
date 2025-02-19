@@ -10,6 +10,8 @@ import json
 import urllib.parse
 import urllib.request
 
+...  # Python 3 is required
+
 headers = {
     'User-Agent': 'sourceforge-authors (https://github.com/jwilk/sourceforge-authors)',
 }
