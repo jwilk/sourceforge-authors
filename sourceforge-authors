@@ -21,7 +21,8 @@ url_template = 'https://sourceforge.net/rest/u/{0}/profile'
 authors_template = '{orig_user} = {name} <{user}@users.sourceforge.net>'
 
 def get_user_name(user):
-    url = url_template.format(urllib.parse.quote(user))
+    q_user = urllib.parse.quote(user, safe='')
+    url = url_template.format(q_user)
     request = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(request) as fp:
